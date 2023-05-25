@@ -1,71 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/reset.css">
-  <title>Recherche</title>
-</head>
-
-<body>
-  <h1>Agrotourisme Laurentides</h1>
-  <div id="search-results"></div>
-  <form method="GET">
-    <input type="text" name="search" id="search" placeholder="Recherche">
-    <button type="submit">Rechercher</button>
-    <?php
-
-    $pdo = new PDO("sqlite:database.sqlite");
-    if (isset($_GET['search'])) {
-      $search = $_GET['search'];
-      if (empty($search)) {
-        echo "<p>Veuillez entrer une recherche valide</p>";
-      } else {
-        $stmt = $pdo->prepare("SELECT * FROM activites  WHERE nom LIKE '%" . $search . "%' ORDER BY nom");
-        $stmt->execute();
-        $results = $stmt->fetchAll();
-
-        $stmt1 = $pdo->prepare("SELECT * FROM entreprises  WHERE nom LIKE '%" . $search . "%' ORDER BY nom");
-        $stmt1->execute();
-        $results1 = $stmt1->fetchAll();
-
-        $stmt1 = $pdo->prepare("SELECT * FROM evenements  WHERE nom LIKE '%" . $search . "%' ORDER BY nom");
-        $stmt1->execute();
-        $results2 = $stmt1->fetchAll();
-
-        $stmt3 = $pdo->prepare("SELECT * FROM forfaits  WHERE nom LIKE '%" . $search . "%' ORDER BY nom");
-        $stmt3->execute();
-        $results3 = $stmt3->fetchAll();
-
-        if (count($results) > 0 || count($results1) > 0 || count($results2) > 0 || count($results3) > 0) {
-          echo "<h2>Résultats de la recherche pour \"" . $search . "\"</h2><ul>";
-          echo "<h3> Résultat pour les Activités : </h3>";
-          foreach ($results as $result) {
-            echo "<li><a href=\"activite.php?id=" . $result['id'] . "\">" . $result['nom'] . "</a></li>";
-          }
-          echo "<h3> Résultat pour les Entreprises : </h3>";
-          foreach ($results1 as $result) {
-            echo "<li><a href=\"entreprise.php?id=" . $result['id'] . "\">" . $result['nom'] . "</a></li>";
-          }
-          echo "<h3> Résultat pour les Événements : </h3>";
-          foreach ($results2 as $result) {
-            echo "<li><a href=\"evenement.php?id=" . $result['id'] . "\">" . $result['nom'] . "</a></li>";
-          }
-          echo "<h3> Résultat pour les Forfaits : </h3>";
-          foreach ($results3 as $result) {
-            echo "<li><a href=\"forfait.php?id=" . $result['id'] . "\">" . $result['nom'] . "</a></li>";
-          }
-          echo "</ul>";
-        } else {
-          echo "<p>Aucun résultat trouvé pour \"" . $search . "\"</p>";
-        }
-      }
+  <title>Agrotourisme Laurentides</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
     }
-    ?>
-  </form>
-</body>
 
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #333;
+    }
+
+    p {
+      font-size: 18px;
+      color: #666;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #4caf50;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    .button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenue sur Agrotourisme Laurentides</h1>
+    <a href="recherche.php" class="button">Recherche</a>
+    <a href="rechercheavancee.php" class="button">Recherche Avancée</a>
+  </div>
+</body>
 </html>
